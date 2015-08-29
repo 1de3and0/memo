@@ -34,12 +34,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDataSour
     let alert_done    = "完了"
     let alert_cancel  = "キャンセル"
     
-    let message_succeed = "ファイルの作成に成功しました"
-    let message_failure = "ファイルの作成に失敗しました"
+    let message_succeed = "作成に成功しました"
+    let message_failure = "作成に失敗しました"
     let message_no_filename = "ファイル名がありません"
     
     
-    let alert_remove     = "選択したファイルを\n削除してもよろしいですか？"
+    let alert_remove     = "選択したファイルを削除してもよろしいですか？"
     let alert_remove_btn = "削除"
     
     let alert_success    = "ファイルの削除に成功しました"
@@ -70,7 +70,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDataSour
         
         tableView = UITableView(frame: frame)
         
-       // tableView.delegate   = self
+      //  tableView.delegate   = self
         tableView!.dataSource = self
         
         self.view.addSubview(tableView!)
@@ -105,7 +105,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDataSour
         let cell: UITableViewCell =
         UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
         
- //       cell.textLabel?.text = getTextForCell(indexPath.row)
+       cell.textLabel?.text = getTextForCell(indexPath.row)
         
         return cell
     }
@@ -115,11 +115,13 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDataSour
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
-    }
+            return filePaths!.count
+      
+            
+        }
     
-    // MARK: - UITableViewDelegate
-    
+//     MARK: - UITableViewDelegate
+//    
 //    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 //        tableView.deselectRowAtIndexPath(indexPath, animated: true)
 //        
@@ -133,7 +135,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDataSour
 //            showFileListToRemove()
 //        }
 //    }
-//    
+//
 //
     
   // MARK: - Show AlertController
@@ -150,6 +152,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDataSour
             
             if fileManager.createFileAtPath(filePath, contents: fileData, attributes: nil) {
                 showAlertMessage("", message: message_succeed)
+                
+              
             } else {
                 showAlertMessage("", message: message_failure)
             }
@@ -259,33 +263,37 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDataSour
         tableView!.reloadData()
     }
     
+    
+    
+    
     /// テーブルセルの行を取得
     func getTextForCell(row:Int) -> String {
         let fileName = filePaths!.objectAtIndex(row) as! String
         
-        return String(format: "ファイル名：%@", fileName)
+        return String(format: "%@", fileName)
     }
+   
     
-    // MARK: - Remove File
-    
-    /// 選択したファイルを削除する
-    func removeFile(row:Int) {
-        let fileName = filePaths?.objectAtIndex(row) as! String
-        
-        let filePath = directoryPath.stringByAppendingPathComponent(fileName)
-        
-        // 削除するファイルをログに出力
-        NSLog("removeFile %@", filePath)
-        
-        if (NSFileManager.defaultManager().removeItemAtPath(filePath, error: nil)) {
-            showAlertMessage("", message: alert_success)
-            initPaths()
-        }
-        else {
-            showAlertMessage("", message: alert_failure)
-        }
-    }
-    
+//    // MARK: - Remove File
+//    
+//    /// 選択したファイルを削除する
+//    func removeFile(row:Int) {
+//        let fileName = filePaths?.objectAtIndex(row) as! String
+//        
+//        let filePath = directoryPath.stringByAppendingPathComponent(fileName)
+//        
+//        // 削除するファイルをログに出力
+//        NSLog("removeFile %@", filePath)
+//        
+//        if (NSFileManager.defaultManager().removeItemAtPath(filePath, error: nil)) {
+//            showAlertMessage("", message: alert_success)
+//            initPaths()
+//        }
+//        else {
+//            showAlertMessage("", message: alert_failure)
+//        }
+//    }
+//    
     
 }
 
