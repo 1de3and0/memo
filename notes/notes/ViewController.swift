@@ -114,10 +114,14 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDataSour
         return 1
     }
     
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if (filePaths != nil) {
             return filePaths!.count
-      
-            
+        } else {
+            return 0
+        }
+        
         }
     
 //     MARK: - UITableViewDelegate
@@ -152,6 +156,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDataSour
             
             if fileManager.createFileAtPath(filePath, contents: fileData, attributes: nil) {
                 showAlertMessage("", message: message_succeed)
+                
+                initPaths()
+                
                 
               
             } else {
@@ -273,6 +280,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UITableViewDataSour
         return String(format: "%@", fileName)
     }
    
+    
     
 //    // MARK: - Remove File
 //    
